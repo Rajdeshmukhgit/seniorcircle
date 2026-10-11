@@ -1,0 +1,349 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens. Every colour in the UI comes from these, so the light and
+   dark themes stay in step and a rebrand is a change in one place.
+   The look: icy glass. Pale blue-grey page, white glass surfaces, an
+   electric-blue accent, and corners that are bevelled rather than rounded. */
+:root {
+  --page: #eef3f7;
+  --muted: #e5ecf2;
+  --card: #ffffff;
+  --footer: #ffffff;
+  --line: #d8e2eb;
+  --hairline: rgba(18, 52, 86, 0.08);
+  --ink: #0b1320;
+  --strong: #27384a;
+  --soft: #536273;
+  --faint: #758597;
+  --chip: #f6f9fc;
+  --tint: #e8f0f7;
+  --invert: #0b1320;
+  --invert-ink: #f2f7fb;
+  --primary: 10 132 255;
+  --primary-hover: #0070e8;
+  --primary-text: #0a6bd0;
+  --danger: #d03a3a;
+  --success: #0f7d58;
+
+  /* Glass and depth */
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.82);
+  --glass-edge: rgba(255, 255, 255, 0.85);
+  --shadow-card: 0 1px 0 rgba(255, 255, 255, 0.9) inset, 0 1px 2px rgba(16, 48, 80, 0.04),
+    0 14px 34px -18px rgba(16, 60, 104, 0.28);
+  --shadow-float: 0 30px 70px -30px rgba(12, 52, 94, 0.45), 0 8px 20px -12px rgba(12, 52, 94, 0.18);
+
+  /* The big feature panels (hero, call to action) */
+  --panel-grad: radial-gradient(120% 90% at 100% 100%, rgba(56, 170, 236, 0.95) 0%, rgba(56, 170, 236, 0) 60%),
+    radial-gradient(70% 60% at 62% 45%, rgba(165, 214, 240, 0.85) 0%, rgba(165, 214, 240, 0) 70%),
+    linear-gradient(118deg, #c7cbd0 0%, #b3c1cc 32%, #86b8d6 64%, #3a9ad4 100%);
+  --button-grad: linear-gradient(100deg, #63b6ff 0%, #2a92ff 48%, #0a76f0 100%);
+
+  /* Concentric ripples behind every page */
+  --ripple-glow: rgba(255, 255, 255, 0.95);
+  /* Crisp vector rings: a thin shadow line with a white highlight just outside it. */
+  --ripple-rings: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%223600%22 height=%223600%22 viewBox=%22-1800 -1800 3600 3600%22%3E%3Cg fill=%22none%22%3E%3Ccircle r=%2236%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%2237.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%2290%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%2291.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22144%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22145.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22198%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22199.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22252%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22253.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22306%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22307.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22360%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22361.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22414%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22415.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22468%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22469.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22522%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22523.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22576%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22577.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22630%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22631.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22684%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22685.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22738%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22739.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22792%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22793.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22846%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22847.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22900%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22901.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22954%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22955.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221008%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221009.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221062%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221063.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221116%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221117.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221170%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221171.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221224%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221225.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221278%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221279.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221332%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221333.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221386%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221387.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221440%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221441.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221494%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221495.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221548%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221549.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221602%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221603.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221656%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221657.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221710%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221711.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221764%22 stroke=%22rgba%28104,136,168,0.30%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221765.6%22 stroke=%22rgba%28255,255,255,0.95%29%22 stroke-width=%221.3%22/%3E%3C/g%3E%3C/svg%3E");
+
+  color-scheme: light;
+}
+
+.dark {
+  --page: #070c14;
+  --muted: #0b121c;
+  --card: #0e1723;
+  --footer: #0b121c;
+  --line: rgba(150, 196, 240, 0.13);
+  --hairline: rgba(150, 196, 240, 0.08);
+  --ink: #eaf2fa;
+  --strong: #c4d2e0;
+  --soft: #93a4b7;
+  --faint: #73869b;
+  --chip: rgba(150, 196, 240, 0.05);
+  --tint: rgba(150, 196, 240, 0.09);
+  --invert: #eaf2fa;
+  --invert-ink: #070c14;
+  --primary-hover: #3a9bff;
+  --primary-text: #6fb9ff;
+  --danger: #ff8a85;
+  --success: #5fd4a6;
+
+  --glass: rgba(16, 28, 42, 0.55);
+  --glass-strong: rgba(16, 28, 42, 0.8);
+  --glass-edge: rgba(150, 196, 240, 0.14);
+  --shadow-card: 0 1px 0 rgba(150, 196, 240, 0.06) inset, 0 18px 40px -22px rgba(0, 0, 0, 0.7);
+  --shadow-float: 0 30px 80px -30px rgba(0, 0, 0, 0.8), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+
+  --panel-grad: radial-gradient(120% 90% at 100% 100%, rgba(18, 126, 205, 0.9) 0%, rgba(18, 126, 205, 0) 62%),
+    radial-gradient(70% 60% at 62% 45%, rgba(60, 130, 180, 0.5) 0%, rgba(60, 130, 180, 0) 70%),
+    linear-gradient(118deg, #1a222c 0%, #1a2a3a 35%, #174566 68%, #0d6aa8 100%);
+  --button-grad: linear-gradient(100deg, #3f9fff 0%, #1584ff 50%, #0a6be0 100%);
+
+  --ripple-glow: rgba(40, 110, 180, 0.22);
+  --ripple-rings: url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%223600%22 height=%223600%22 viewBox=%22-1800 -1800 3600 3600%22%3E%3Cg fill=%22none%22%3E%3Ccircle r=%2236%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%2237.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%2290%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%2291.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22144%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22145.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22198%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22199.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22252%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22253.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22306%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22307.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22360%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22361.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22414%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22415.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22468%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22469.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22522%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22523.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22576%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22577.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22630%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22631.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22684%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22685.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22738%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22739.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22792%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22793.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22846%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22847.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22900%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22901.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%22954%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%22955.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221008%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221009.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221062%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221063.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221116%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221117.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221170%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221171.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221224%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221225.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221278%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221279.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221332%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221333.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221386%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221387.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221440%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221441.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221494%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221495.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221548%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221549.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221602%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221603.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221656%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221657.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221710%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221711.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3Ccircle r=%221764%22 stroke=%22rgba%280,0,0,0.55%29%22 stroke-width=%221.2%22/%3E%3Ccircle r=%221765.6%22 stroke=%22rgba%28140,190,240,0.2%29%22 stroke-width=%221.3%22/%3E%3C/g%3E%3C/svg%3E");
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+
+  body {
+    @apply bg-page font-sans text-ink antialiased;
+    font-size: 15.5px;
+    line-height: 1.7;
+    letter-spacing: 0.005em;
+  }
+
+  /* Clean concentric ripples, fixed behind the page like still water. Drawn
+     as a vector image so the rings stay sharp at any size and zoom. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 45% at 50% 0%, var(--ripple-glow) 0%, transparent 70%),
+      var(--ripple-rings) 50% 46% / 3600px 3600px no-repeat;
+    -webkit-mask-image: radial-gradient(80% 75% at 50% 46%, #000 0%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 100%);
+    mask-image: radial-gradient(80% 75% at 50% 46%, #000 0%, rgba(0, 0, 0, 0.8) 55%, rgba(0, 0, 0, 0.3) 100%);
+  }
+
+  /* Reading pages keep the ripples faint so long text stays easy on the eye;
+     the homepage gets the full effect. */
+  body:not(:has(#hero))::before {
+    opacity: 0.75;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--primary));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgb(var(--primary) / 0.22);
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-site px-4 sm:px-6;
+  }
+
+  .heading-section {
+    @apply font-display text-[30px] font-semibold leading-[1.04] tracking-[-0.045em] text-ink sm:text-[42px];
+  }
+
+  .meta-mono {
+    @apply font-mono text-[11px] uppercase tracking-[0.12em] text-faint;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-faint;
+  }
+
+  .field-input {
+    @apply w-full border border-line bg-card px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition placeholder:text-faint focus:border-primary focus:ring-4 focus:ring-primary/10 disabled:opacity-60;
+    border-radius: 12px;
+    --r: 12px;
+    --cut: 12px;
+  }
+
+  .surface {
+    @apply rounded-card border border-line bg-card shadow-card;
+  }
+
+  /* Frosted glass, for anything that floats over the page or a panel. */
+  .glass {
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--glass-edge);
+  }
+
+  .glass-strong {
+    background: var(--glass-strong);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+    border: 1px solid var(--glass-edge);
+  }
+
+  /* Glass that sits on the blue panels: whiter and brighter. */
+  .glass-on-panel {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12));
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.55) inset, 0 24px 50px -24px rgba(8, 40, 72, 0.45);
+  }
+
+  .panel-gradient {
+    background: var(--panel-grad);
+  }
+
+  .button-gradient {
+    background: var(--button-grad);
+  }
+}
+
+@layer utilities {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Bevelled corners. Browsers with corner-shape get true bevels (borders,
+     shadows and focus rings follow the cut); others fall back to rounded. */
+  .shape-cut {
+    border-radius: var(--r, 12px);
+  }
+  .shape-cut-tr {
+    border-radius: var(--r, 20px);
+  }
+
+  /* A hard chamfer on the bottom-left, for the big feature panels. Clip-path,
+     so it looks the same in every browser. */
+  .chamfer-bl {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, var(--cut, 96px) 100%, 0 calc(100% - var(--cut, 96px)));
+  }
+}
+
+@supports (corner-shape: bevel) {
+  /* Top-right and bottom-left bevelled, like the buttons and fields in the reference. */
+  .shape-cut,
+  .field-input {
+    border-radius: var(--r, 12px) var(--cut, 12px) var(--r, 12px) var(--cut, 12px);
+    corner-shape: round bevel round bevel;
+  }
+  /* Only the top-right bevelled: cards and panels. */
+  .shape-cut-tr,
+  .rounded-card {
+    border-radius: var(--r, 20px) var(--cut, 28px) var(--r, 20px) var(--r, 20px);
+    corner-shape: round bevel round round;
+  }
+}
+
+/* Every card picks up the same soft depth. */
+.rounded-card.bg-card {
+  box-shadow: var(--shadow-card);
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0) rotate(2deg);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(10px, 8px, 0);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes letter-in {
+  from {
+    transform: translate3d(0, 105%, 0) rotate(8deg);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes letter-out {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translate3d(0, -105%, 0) rotate(-8deg);
+  }
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes sheen {
+  from {
+    transform: translateX(-120%) skewX(-18deg);
+  }
+  to {
+    transform: translateX(260%) skewX(-18deg);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 9s ease-in-out infinite;
+}
+.animate-drift {
+  animation: drift 12s ease-in-out infinite;
+}
+.animate-rise {
+  animation: rise-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* The navbar is clear at the top of a page and frosted once scrolled. */
+.nav-solid {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  backdrop-filter: blur(22px) saturate(160%);
+  border-color: var(--glass-edge);
+  box-shadow: var(--shadow-float);
+}
+
+dialog::backdrop {
+  background: rgba(60, 72, 86, 0.45);
+  -webkit-backdrop-filter: blur(6px) grayscale(0.4);
+  backdrop-filter: blur(6px) grayscale(0.4);
+}

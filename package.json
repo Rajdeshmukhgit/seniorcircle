@@ -1,0 +1,35 @@
+{
+  "name": "senior-junior-connect",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint . --ext .ts,.tsx --max-warnings 0",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/plus-jakarta-sans": "^5.3.0",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
+    "lucide-react": "^1.52.0",
+    "next": "^15.5.27",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^15.5.27",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5.7.2"
+  }
+}
