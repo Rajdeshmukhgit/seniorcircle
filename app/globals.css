@@ -153,8 +153,9 @@
     @apply inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-faint;
   }
 
+  /* 16px on phones: iOS Safari zooms the page when a smaller field is focused. */
   .field-input {
-    @apply w-full border border-line bg-card px-3.5 py-2.5 text-[14.5px] text-ink outline-none transition placeholder:text-faint focus:border-primary focus:ring-4 focus:ring-primary/10 disabled:opacity-60;
+    @apply w-full border border-line bg-card px-3.5 py-2.5 text-[16px] sm:text-[14.5px] text-ink outline-none transition placeholder:text-faint focus:border-primary focus:ring-4 focus:ring-primary/10 disabled:opacity-60;
     border-radius: 12px;
     --r: 12px;
     --cut: 12px;

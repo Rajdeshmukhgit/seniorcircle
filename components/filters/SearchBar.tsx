@@ -38,7 +38,7 @@ export function SearchBar({ filters }: { filters: FeedFilters }) {
         placeholder="Search experiences, companies or exams"
         autoComplete="off"
         maxLength={80}
-        className="h-12 w-full rounded-card border border-line bg-card [--cut:20px] [--r:16px] pl-11 pr-11 text-[15px] text-ink outline-none transition placeholder:text-faint focus:border-primary focus:ring-4 focus:ring-primary/10 [&::-webkit-search-cancel-button]:hidden"
+        className="h-12 w-full rounded-card border border-line bg-card [--cut:20px] [--r:16px] pl-11 pr-11 text-[16px] text-ink sm:text-[15px] outline-none transition placeholder:text-faint focus:border-primary focus:ring-4 focus:ring-primary/10 [&::-webkit-search-cancel-button]:hidden"
       />
       {value && (
         <button suppressHydrationWarning

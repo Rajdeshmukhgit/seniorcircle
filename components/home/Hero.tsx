@@ -22,7 +22,8 @@ export function Hero({ stats }: HeroProps) {
           <div aria-hidden className="absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-white/40 blur-3xl" />
           <div aria-hidden className="absolute -bottom-40 right-0 -z-10 h-[28rem] w-[28rem] rounded-full bg-[#0a84ff]/30 blur-3xl" />
 
-          <HeroArt className="absolute -right-[18%] top-[30%] -z-10 h-[40%] w-[90%] opacity-70 sm:-right-[4%] sm:top-[16%] sm:h-[52%] sm:w-[62%] sm:opacity-90 lg:right-[4%] lg:top-[5%] lg:h-[62%] lg:w-[42%] lg:opacity-100" />
+          {/* Tablets and up: the staircase sits behind the right half of the panel. Phones get an in-flow copy next to the stat card. */}
+          <HeroArt className="absolute right-[2%] top-[9%] -z-10 hidden h-[38%] w-[46%] sm:block lg:right-[4%] lg:top-[5%] lg:h-[62%] lg:w-[42%]" />
 
           <div className="relative flex min-h-[640px] flex-col justify-between gap-12 px-5 pb-9 pt-10 sm:min-h-[660px] sm:px-10 sm:pb-12 sm:pt-14 lg:h-[calc(100svh-108px)] lg:min-h-[470px] lg:max-h-[860px] lg:gap-6 lg:px-14 lg:pb-[clamp(24px,5svh,56px)] lg:pt-[clamp(28px,6svh,56px)]">
             <div className="max-w-[720px]">
@@ -31,7 +32,7 @@ export function Hero({ stats }: HeroProps) {
                 {COLLEGE_NAME} · Senior–Junior Connect
               </p>
               <h1
-                className="animate-rise mt-5 lg:mt-[clamp(12px,2.4svh,20px)] font-display text-[42px] font-semibold leading-[0.96] tracking-[-0.055em] [text-shadow:0_2px_24px_rgba(8,40,72,0.18)] min-[420px]:text-[50px] sm:text-[64px] lg:max-w-[6.4em] lg:text-[clamp(50px,9.6svh,84px)]"
+                className="animate-rise mt-5 lg:mt-[clamp(12px,2.4svh,20px)] font-display text-[42px] font-semibold leading-[0.96] tracking-[-0.055em] [text-shadow:0_2px_24px_rgba(8,40,72,0.18)] min-[420px]:text-[50px] sm:max-w-[6.4em] sm:text-[64px] lg:text-[clamp(50px,9.6svh,84px)]"
                 style={{ animationDelay: "80ms" }}
               >
                 Learn from experience.
@@ -40,16 +41,18 @@ export function Hero({ stats }: HeroProps) {
               </h1>
             </div>
 
+            {/* On phones the card and a copy of the staircase share a row; from sm up this wrapper disappears. */}
+            <div className="-mr-2 flex items-center gap-1 sm:contents">
             {showStats && (
               <div
-                className="glass-on-panel shape-cut-tr animate-rise w-[240px] p-5 [--cut:30px] [--r:22px] lg:hidden xl:absolute xl:left-[45%] xl:top-[13%] xl:block"
+                className="glass-on-panel shape-cut-tr animate-rise w-[56%] shrink-0 p-4 [--cut:24px] [--r:20px] sm:w-[240px] sm:p-5 sm:[--cut:30px] sm:[--r:22px] lg:hidden xl:absolute xl:left-[45%] xl:top-[13%] xl:block"
                 style={{ animationDelay: "240ms" }}
               >
-                <div className="font-display text-[56px] font-semibold leading-none tracking-[-0.06em] lg:text-[clamp(40px,7svh,56px)]">
+                <div className="font-display text-[44px] font-semibold leading-none tracking-[-0.06em] sm:text-[56px] lg:text-[clamp(40px,7svh,56px)]">
                   {stats.experiences}
                   <span className="text-white/60">+</span>
                 </div>
-                <svg viewBox="0 0 64 40" className="mt-5 h-10 w-16 lg:mt-[clamp(10px,2svh,20px)] lg:h-[clamp(28px,4.5svh,40px)]" aria-hidden>
+                <svg viewBox="0 0 64 40" className="mt-3 h-8 w-14 sm:mt-5 sm:h-10 sm:w-16 lg:mt-[clamp(10px,2svh,20px)] lg:h-[clamp(28px,4.5svh,40px)]" aria-hidden>
                   <path
                     d="M4 36 H18 V26 H32 V16 H46 V6 H60"
                     fill="none"
@@ -59,12 +62,14 @@ export function Hero({ stats }: HeroProps) {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <p className="mt-4 text-[13px] font-medium leading-snug text-white/90">
+                <p className="mt-3 text-[12.5px] font-medium leading-snug text-white/90 sm:mt-4 sm:text-[13px]">
                   experiences shared by seniors and alumni, across {stats.companies}{" "}
                   {stats.companies === 1 ? "company or exam" : "companies and exams"}.
                 </p>
               </div>
             )}
+            <HeroArt uid="hero-m" className="h-[190px] min-w-0 flex-1 sm:hidden" />
+            </div>
 
             <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
               <div className="animate-rise grid max-w-[540px] grid-cols-[auto_1fr] gap-x-8 border-t border-white/35 pt-4" style={{ animationDelay: "320ms" }}>

@@ -40,7 +40,7 @@ export function VerificationQueue({ alumni }: { alumni: PendingAlumni[] }) {
   return (
     <>
       {/* Table on wider screens */}
-      <div className="hidden overflow-hidden rounded-card border border-line bg-card [--cut:20px] [--r:16px] md:block">
+      <div className="hidden overflow-hidden rounded-card border border-line bg-card [--cut:20px] [--r:16px] lg:block">
         <table className="w-full border-collapse">
           <thead className="border-b border-line bg-tint">
             <tr>
@@ -73,8 +73,8 @@ export function VerificationQueue({ alumni }: { alumni: PendingAlumni[] }) {
         </table>
       </div>
 
-      {/* Cards on phones */}
-      <ul className="space-y-3 md:hidden">
+      {/* Cards on phones and tablets */}
+      <ul className="grid gap-3 md:grid-cols-2 lg:hidden">
         {alumni.map((person) => (
           <li key={person.id} className="rounded-card border border-line bg-card [--cut:20px] [--r:16px] p-4">
             <div className="text-[15px] font-bold text-ink">{person.name}</div>

@@ -38,7 +38,7 @@ function FilterSelect({ id, label, icon: Icon, value, placeholder, options, onCh
           value={value}
           onChange={(event) => onChange(event.target.value)}
           className={cn(
-            "shape-cut h-10 w-full appearance-none border border-line bg-chip [--cut:10px] [--r:11px] pl-3 pr-9 text-[13.5px] font-medium outline-none transition focus:border-primary focus:ring-4 focus:ring-primary/10",
+            "shape-cut h-10 w-full appearance-none border border-line bg-chip [--cut:10px] [--r:11px] pl-3 pr-9 text-[16px] font-medium outline-none sm:text-[13.5px] transition focus:border-primary focus:ring-4 focus:ring-primary/10",
             value ? "text-ink" : "text-soft",
           )}
         >
