@@ -22,7 +22,7 @@ export function Hero({ stats }: HeroProps) {
           <div aria-hidden className="absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-white/40 blur-3xl" />
           <div aria-hidden className="absolute -bottom-40 right-0 -z-10 h-[28rem] w-[28rem] rounded-full bg-[#0a84ff]/30 blur-3xl" />
 
-          <HeroArt className="absolute -right-[30%] top-[22%] -z-10 h-[52%] w-[120%] opacity-80 sm:-right-[10%] sm:top-[14%] sm:h-[70%] sm:w-[90%] lg:right-[2%] lg:top-[4%] lg:h-[88%] lg:w-[64%] lg:opacity-100" />
+          <HeroArt className="absolute -right-[18%] top-[30%] -z-10 h-[40%] w-[90%] opacity-70 sm:-right-[4%] sm:top-[16%] sm:h-[52%] sm:w-[62%] sm:opacity-90 lg:right-[4%] lg:top-[5%] lg:h-[62%] lg:w-[42%] lg:opacity-100" />
 
           <div className="relative flex min-h-[640px] flex-col justify-between gap-12 px-5 pb-9 pt-10 sm:min-h-[660px] sm:px-10 sm:pb-12 sm:pt-14 lg:min-h-[700px] lg:px-14 lg:pb-14">
             <div className="max-w-[720px]">
@@ -42,7 +42,7 @@ export function Hero({ stats }: HeroProps) {
 
             {showStats && (
               <div
-                className="glass-on-panel shape-cut-tr animate-rise w-[240px] p-5 [--cut:30px] [--r:22px] lg:absolute lg:left-[47%] lg:top-[29%]"
+                className="glass-on-panel shape-cut-tr animate-rise w-[240px] p-5 [--cut:30px] [--r:22px] lg:absolute lg:left-[45%] lg:top-[13%]"
                 style={{ animationDelay: "240ms" }}
               >
                 <div className="font-display text-[56px] font-semibold leading-none tracking-[-0.06em]">
@@ -50,8 +50,14 @@ export function Hero({ stats }: HeroProps) {
                   <span className="text-white/60">+</span>
                 </div>
                 <svg viewBox="0 0 64 40" className="mt-5 h-10 w-16" aria-hidden>
-                  <circle cx="22" cy="20" r="15" fill="none" stroke="#fff" strokeWidth="6" />
-                  <circle cx="42" cy="20" r="15" fill="none" stroke="#fff" strokeOpacity="0.55" strokeWidth="6" />
+                  <path
+                    d="M4 36 H18 V26 H32 V16 H46 V6 H60"
+                    fill="none"
+                    stroke="#fff"
+                    strokeWidth="5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
                 <p className="mt-4 text-[13px] font-medium leading-snug text-white/90">
                   experiences shared by seniors and alumni, across {stats.companies}{" "}

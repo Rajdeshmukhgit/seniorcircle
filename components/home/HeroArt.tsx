@@ -1,128 +1,189 @@
 /**
- * Decorative: two interlocking glass rings, the logo's "one batch handing over
- * to the next", drawn as a floating glass object in the spirit of a 3D render.
- * Pure SVG, so it needs no image files and stays sharp at any size.
+ * Decorative: a floating glass staircase. Each step is a senior batch one year
+ * ahead; a line of light climbs it, and an experience card hovers at the top.
+ * Drawn in isometric projection as plain SVG, so it needs no image files and
+ * stays sharp at any size.
  */
 
-interface Ring {
-  cx: number;
-  cy: number;
-  rx: number;
-  ry: number;
-  rotate: number;
+type P3 = [number, number, number];
+
+const STEPS = 5;
+const WIDTH = 2.3; // along x
+const DEPTH = 1; // along y, per step
+const RISE = 0.52; // height added per step
+const SCALE = 56;
+
+/** Isometric projection: x runs down-right, -y runs up-right, z runs up. */
+function project([x, y, z]: P3): [number, number] {
+  return [(x - y) * SCALE * 0.866, (x + y) * SCALE * 0.5 - z * SCALE];
 }
 
-const A: Ring = { cx: 250, cy: 300, rx: 158, ry: 118, rotate: -24 };
-const B: Ring = { cx: 400, cy: 262, rx: 150, ry: 108, rotate: 32 };
-const TUBE = 54;
-
-/** An open arc along an ellipse, from angle a0 to a1 in degrees, as a path. */
-function arc(rx: number, ry: number, a0: number, a1: number, steps = 48): string {
-  const points: string[] = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = ((a0 + ((a1 - a0) * i) / steps) * Math.PI) / 180;
-    points.push(`${(rx * Math.cos(t)).toFixed(1)} ${(ry * Math.sin(t)).toFixed(1)}`);
-  }
-  return `M${points.join(" L")}`;
+interface Block {
+  top: P3[];
+  riser: P3[];
+  side: P3[];
 }
 
-function RingBody({ ring, segment, uid }: { ring: Ring; segment?: [number, number]; uid: string }) {
-  const { rx, ry } = ring;
-  const transform = `translate(${ring.cx} ${ring.cy}) rotate(${ring.rotate})`;
+const blocks: Block[] = Array.from({ length: STEPS }, (_, i) => {
+  const y0 = -(i + 1) * DEPTH;
+  const y1 = -i * DEPTH;
+  const h = (i + 1) * RISE;
+  return {
+    top: [
+      [0, y0, h],
+      [WIDTH, y0, h],
+      [WIDTH, y1, h],
+      [0, y1, h],
+    ],
+    riser: [
+      [0, y1, 0],
+      [WIDTH, y1, 0],
+      [WIDTH, y1, h],
+      [0, y1, h],
+    ],
+    side: [
+      [WIDTH, y0, 0],
+      [WIDTH, y1, 0],
+      [WIDTH, y1, h],
+      [WIDTH, y0, h],
+    ],
+  };
+});
 
-  // A partial ring is used to re-draw the stretch that passes in front of the other ring.
-  if (segment) {
-    const d = arc(rx, ry, segment[0], segment[1]);
-    return (
-      <g transform={transform}>
-        <path d={d} fill="none" stroke={`url(#${uid}-tube)`} strokeWidth={TUBE} />
-        <path d={d} fill="none" stroke={`url(#${uid}-core)`} strokeWidth={TUBE * 0.42} opacity="0.55" filter={`url(#${uid}-blur-4)`} />
-        <path d={arc(rx + TUBE / 2 - 1, ry + TUBE / 2 - 1, segment[0], segment[1])} fill="none" stroke="#fff" strokeOpacity="0.85" strokeWidth="1.4" />
-        <path d={arc(rx - TUBE / 2 + 1, ry - TUBE / 2 + 1, segment[0], segment[1])} fill="none" stroke="#fff" strokeOpacity="0.6" strokeWidth="1.2" />
-      </g>
-    );
-  }
-
-  return (
-    <g transform={transform}>
-      {/* Soft contact shadow */}
-      <ellipse rx={rx} ry={ry} fill="none" stroke="#0a3a66" strokeOpacity="0.22" strokeWidth={TUBE + 8} transform="translate(0 22)" filter={`url(#${uid}-blur-14)`} />
-      {/* Tube body */}
-      <ellipse rx={rx} ry={ry} fill="none" stroke={`url(#${uid}-tube)`} strokeWidth={TUBE} />
-      {/* Refracted core: the darker band through the middle of the glass */}
-      <ellipse rx={rx} ry={ry} fill="none" stroke={`url(#${uid}-core)`} strokeWidth={TUBE * 0.42} opacity="0.55" filter={`url(#${uid}-blur-4)`} />
-      {/* Crisp rims */}
-      <ellipse rx={rx + TUBE / 2 - 1} ry={ry + TUBE / 2 - 1} fill="none" stroke="#fff" strokeOpacity="0.85" strokeWidth="1.4" />
-      <ellipse rx={rx - TUBE / 2 + 1} ry={ry - TUBE / 2 + 1} fill="none" stroke="#fff" strokeOpacity="0.6" strokeWidth="1.2" />
-      {/* Specular highlights */}
-      <path d={arc(rx + 10, ry + 10, 196, 262)} fill="none" stroke="#fff" strokeWidth="9" strokeLinecap="round" opacity="0.85" filter={`url(#${uid}-blur-3)`} />
-      <path d={arc(rx + 12, ry + 12, 206, 240)} fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round" />
-      <path d={arc(rx - 14, ry - 14, 20, 70)} fill="none" stroke="#fff" strokeWidth="5" strokeLinecap="round" opacity="0.55" filter={`url(#${uid}-blur-3)`} />
-    </g>
-  );
+/** The route of the light: up each riser and across each tread, along the middle. */
+const route: P3[] = [];
+for (let i = 0; i < STEPS; i++) {
+  const y = -i * DEPTH;
+  route.push([WIDTH * 0.5, y, i * RISE], [WIDTH * 0.5, y, (i + 1) * RISE], [WIDTH * 0.5, y - DEPTH * 0.82, (i + 1) * RISE]);
 }
 
-function Bubble({ cx, cy, r, delay, uid }: { cx: number; cy: number; r: number; delay: string; uid: string }) {
-  return (
-    <g className="animate-drift" style={{ animationDelay: delay, transformBox: "fill-box", transformOrigin: "center" }}>
-      <circle cx={cx} cy={cy} r={r} fill={`url(#${uid}-bubble)`} />
-      <circle cx={cx} cy={cy} r={r - 0.8} fill="none" stroke="#fff" strokeOpacity="0.7" strokeWidth="1.2" />
-      <ellipse cx={cx - r * 0.35} cy={cy - r * 0.4} rx={r * 0.32} ry={r * 0.18} fill="#fff" opacity="0.85" transform={`rotate(-30 ${cx - r * 0.35} ${cy - r * 0.4})`} />
-    </g>
-  );
-}
+/** The card floating above the top step. */
+const TOP_H = STEPS * RISE;
+const CARD_Z = TOP_H + 0.62;
+const cardY0 = -STEPS * DEPTH + 0.12;
+const card: P3[] = [
+  [0.28, cardY0, CARD_Z],
+  [WIDTH - 0.28, cardY0, CARD_Z],
+  [WIDTH - 0.28, cardY0 + 0.78, CARD_Z],
+  [0.28, cardY0 + 0.78, CARD_Z],
+];
+const cardShadow: P3[] = card.map(([x, y]) => [x + 0.08, y + 0.08, TOP_H]);
+const cardLine = (t: number, len: number): P3[] => [
+  [0.5, cardY0 + t, CARD_Z],
+  [0.5 + (WIDTH - 1) * len, cardY0 + t, CARD_Z],
+];
+
+// Fit everything into the viewBox with even padding.
+const allPoints = [...blocks.flatMap((b) => [...b.top, ...b.riser, ...b.side]), ...card].map(project);
+const PAD = 40;
+const minX = Math.min(...allPoints.map((p) => p[0])) - PAD;
+const minY = Math.min(...allPoints.map((p) => p[1])) - PAD;
+const VIEW_W = Math.max(...allPoints.map((p) => p[0])) + PAD - minX;
+const VIEW_H = Math.max(...allPoints.map((p) => p[1])) + PAD * 1.6 - minY;
+
+const pts = (poly: P3[]) =>
+  poly
+    .map(project)
+    .map(([x, y]) => `${(x - minX).toFixed(1)},${(y - minY).toFixed(1)}`)
+    .join(" ");
+
+const routeD = `M${pts(route).split(" ").join(" L")}`;
 
 /** `uid` keeps the SVG gradient ids unique when the art appears twice on a page. */
 export function HeroArt({ className = "", uid = "hero" }: { className?: string; uid?: string }) {
+  const id = (name: string) => `${uid}-${name}`;
+  const url = (name: string) => `url(#${id(name)})`;
+
   return (
     <div aria-hidden className={`pointer-events-none select-none ${className}`}>
-      <svg viewBox="0 0 640 560" className="h-full w-full overflow-visible">
+      <svg viewBox={`0 0 ${VIEW_W.toFixed(0)} ${VIEW_H.toFixed(0)}`} className="h-full w-full overflow-visible">
         <defs>
-          <linearGradient id={`${uid}-tube`} gradientUnits="userSpaceOnUse" x1="-190" y1="-170" x2="190" y2="170">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.92" />
-            <stop offset="0.28" stopColor="#e3f3ff" stopOpacity="0.55" />
-            <stop offset="0.55" stopColor="#8cc8f0" stopOpacity="0.32" />
-            <stop offset="0.8" stopColor="#d9efff" stopOpacity="0.5" />
-            <stop offset="1" stopColor="#ffffff" stopOpacity="0.8" />
+          <linearGradient id={id("top")} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.97" />
+            <stop offset="1" stopColor="#e4f3ff" stopOpacity="0.82" />
           </linearGradient>
-          <linearGradient id={`${uid}-core`} gradientUnits="userSpaceOnUse" x1="-190" y1="170" x2="190" y2="-170">
-            <stop offset="0" stopColor="#0b4f8c" />
-            <stop offset="0.5" stopColor="#2e86c8" stopOpacity="0.5" />
-            <stop offset="1" stopColor="#0b4f8c" stopOpacity="0.85" />
+          <linearGradient id={id("riser")} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stopColor="#f4faff" stopOpacity="0.9" />
+            <stop offset="1" stopColor="#a9d6f6" stopOpacity="0.62" />
           </linearGradient>
-          <radialGradient id={`${uid}-bubble`} cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0.55" stopColor="#ffffff" stopOpacity="0.04" />
-            <stop offset="0.9" stopColor="#d6eeff" stopOpacity="0.4" />
-            <stop offset="1" stopColor="#ffffff" stopOpacity="0.75" />
-          </radialGradient>
-          <radialGradient id={`${uid}-glow`} cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0" stopColor="#ffffff" stopOpacity="0.75" />
-            <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
-          </radialGradient>
-          <filter id={`${uid}-blur-3`} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="3" />
+          <linearGradient id={id("side")} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#6ab8ef" stopOpacity="0.88" />
+            <stop offset="1" stopColor="#1366b8" stopOpacity="0.7" />
+          </linearGradient>
+          <linearGradient id={id("card")} x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#ffffff" stopOpacity="0.95" />
+            <stop offset="1" stopColor="#e6f4ff" stopOpacity="0.7" />
+          </linearGradient>
+          <linearGradient id={id("beam")} x1="0" y1="1" x2="1" y2="0">
+            <stop offset="0" stopColor="#0a84ff" stopOpacity="0" />
+            <stop offset="0.4" stopColor="#0a84ff" stopOpacity="0.9" />
+            <stop offset="1" stopColor="#38b6ff" />
+          </linearGradient>
+          <filter id={id("soft")} x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation="16" />
           </filter>
-          <filter id={`${uid}-blur-4`} x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="4" />
-          </filter>
-          <filter id={`${uid}-blur-14`} x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur stdDeviation="14" />
+          <filter id={id("glow")} x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3.5" />
           </filter>
         </defs>
 
-        <ellipse cx="330" cy="280" rx="260" ry="200" fill={`url(#${uid}-glow)`} opacity="0.6" />
+        {/* Contact shadow on the panel below the staircase */}
+        <polygon
+          points={pts([
+            [0, 0.3, 0],
+            [WIDTH + 0.4, 0.3, 0],
+            [WIDTH + 0.4, -STEPS * DEPTH, 0],
+            [0, -STEPS * DEPTH, 0],
+          ])}
+          transform="translate(0 26)"
+          fill="#062f57"
+          opacity="0.28"
+          filter={url("soft")}
+        />
 
-        <g className="animate-float-slow" style={{ transformBox: "fill-box", transformOrigin: "center" }}>
-          <RingBody ring={A} uid={uid} />
-          <RingBody ring={B} uid={uid} />
-          {/* Ring A passes in front of ring B on its right-hand side, so the two interlock. */}
-          <RingBody ring={A} segment={[-38, 8]} uid={uid} />
+        <g className="art-float">
+          {/* Back to front: the highest step is farthest from the viewer. */}
+          {[...blocks].reverse().map((block, index) => (
+            <g key={index} strokeLinejoin="round">
+              <polygon points={pts(block.side)} fill={url("side")} stroke="#ffffff" strokeOpacity="0.45" strokeWidth="1" />
+              <polygon points={pts(block.riser)} fill={url("riser")} stroke="#ffffff" strokeOpacity="0.8" strokeWidth="1" />
+              <polygon points={pts(block.top)} fill={url("top")} stroke="#ffffff" strokeOpacity="0.95" strokeWidth="1.3" />
+            </g>
+          ))}
+
+          {/* The climbing line of light */}
+          <path d={routeD} fill="none" stroke="#2a8ae0" strokeOpacity="0.28" strokeWidth="1.6" strokeDasharray="3 5" strokeLinejoin="round" />
+          <path
+            d={routeD}
+            fill="none"
+            stroke={url("beam")}
+            strokeWidth="5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={100}
+            className="art-beam"
+            filter={url("glow")}
+          />
+          <path
+            d={routeD}
+            fill="none"
+            stroke="#0a7cf0"
+            strokeWidth="2.4"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            pathLength={100}
+            className="art-beam"
+          />
+
+          {/* An experience card hovering over the top step */}
+          <polygon points={pts(cardShadow)} fill="#0a4a86" opacity="0.18" filter={url("glow")} />
+          <g className="art-card">
+            <polygon points={pts(card)} fill={url("card")} stroke="#ffffff" strokeWidth="1.3" strokeLinejoin="round" />
+            <polyline points={pts(cardLine(0.24, 1))} stroke="#2a8ae0" strokeOpacity="0.75" strokeWidth="4" strokeLinecap="round" fill="none" />
+            <polyline points={pts(cardLine(0.42, 0.72))} stroke="#2a8ae0" strokeOpacity="0.4" strokeWidth="4" strokeLinecap="round" fill="none" />
+            <polyline points={pts(cardLine(0.6, 0.5))} stroke="#2a8ae0" strokeOpacity="0.4" strokeWidth="4" strokeLinecap="round" fill="none" />
+          </g>
         </g>
-
-        <Bubble cx={548} cy={118} r={30} delay="0s" uid={uid} />
-        <Bubble cx={96} cy={140} r={18} delay="-4s" uid={uid} />
-        <Bubble cx={612} cy={300} r={14} delay="-7s" uid={uid} />
-        <Bubble cx={150} cy={470} r={24} delay="-2s" uid={uid} />
       </svg>
     </div>
   );

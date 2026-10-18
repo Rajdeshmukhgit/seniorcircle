@@ -7,7 +7,7 @@ export function ContributeCta() {
     <section id="contribute" className="px-2.5 pb-4 sm:px-4">
       <div className="glass mx-auto max-w-wide rounded-panel p-1.5 shadow-float sm:p-2">
         <div className="panel-gradient chamfer-bl relative isolate overflow-hidden rounded-[24px] px-6 py-12 text-white [--cut:44px] sm:px-10 sm:py-16 sm:[--cut:72px] lg:px-14">
-          <HeroArt uid="cta" className="absolute -right-24 -top-10 -z-10 h-[150%] w-[520px] opacity-70 sm:-right-10" />
+          <HeroArt uid="cta" className="absolute right-[25%] top-[7%] -z-10 hidden h-[86%] w-[330px] lg:block" />
           <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
             <div className="max-w-xl">
               <p className="eyebrow text-white/80">Contribute</p>
