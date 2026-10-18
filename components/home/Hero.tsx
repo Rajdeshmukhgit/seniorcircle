@@ -24,14 +24,14 @@ export function Hero({ stats }: HeroProps) {
 
           <HeroArt className="absolute -right-[18%] top-[30%] -z-10 h-[40%] w-[90%] opacity-70 sm:-right-[4%] sm:top-[16%] sm:h-[52%] sm:w-[62%] sm:opacity-90 lg:right-[4%] lg:top-[5%] lg:h-[62%] lg:w-[42%] lg:opacity-100" />
 
-          <div className="relative flex min-h-[640px] flex-col justify-between gap-12 px-5 pb-9 pt-10 sm:min-h-[660px] sm:px-10 sm:pb-12 sm:pt-14 lg:min-h-[700px] lg:px-14 lg:pb-14">
+          <div className="relative flex min-h-[640px] flex-col justify-between gap-12 px-5 pb-9 pt-10 sm:min-h-[660px] sm:px-10 sm:pb-12 sm:pt-14 lg:h-[calc(100svh-108px)] lg:min-h-[470px] lg:max-h-[860px] lg:gap-6 lg:px-14 lg:pb-[clamp(24px,5svh,56px)] lg:pt-[clamp(28px,6svh,56px)]">
             <div className="max-w-[720px]">
               <p className="eyebrow animate-rise text-white/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-white" />
                 {COLLEGE_NAME} · Senior–Junior Connect
               </p>
               <h1
-                className="animate-rise mt-5 font-display text-[42px] font-semibold leading-[0.96] tracking-[-0.055em] [text-shadow:0_2px_24px_rgba(8,40,72,0.18)] min-[420px]:text-[50px] sm:text-[64px] lg:text-[76px]"
+                className="animate-rise mt-5 lg:mt-[clamp(12px,2.4svh,20px)] font-display text-[42px] font-semibold leading-[0.96] tracking-[-0.055em] [text-shadow:0_2px_24px_rgba(8,40,72,0.18)] min-[420px]:text-[50px] sm:text-[64px] lg:max-w-[6.4em] lg:text-[clamp(50px,9.6svh,84px)]"
                 style={{ animationDelay: "80ms" }}
               >
                 Learn from experience.
@@ -42,14 +42,14 @@ export function Hero({ stats }: HeroProps) {
 
             {showStats && (
               <div
-                className="glass-on-panel shape-cut-tr animate-rise w-[240px] p-5 [--cut:30px] [--r:22px] lg:absolute lg:left-[45%] lg:top-[13%]"
+                className="glass-on-panel shape-cut-tr animate-rise w-[240px] p-5 [--cut:30px] [--r:22px] lg:hidden xl:absolute xl:left-[45%] xl:top-[13%] xl:block"
                 style={{ animationDelay: "240ms" }}
               >
-                <div className="font-display text-[56px] font-semibold leading-none tracking-[-0.06em]">
+                <div className="font-display text-[56px] font-semibold leading-none tracking-[-0.06em] lg:text-[clamp(40px,7svh,56px)]">
                   {stats.experiences}
                   <span className="text-white/60">+</span>
                 </div>
-                <svg viewBox="0 0 64 40" className="mt-5 h-10 w-16" aria-hidden>
+                <svg viewBox="0 0 64 40" className="mt-5 h-10 w-16 lg:mt-[clamp(10px,2svh,20px)] lg:h-[clamp(28px,4.5svh,40px)]" aria-hidden>
                   <path
                     d="M4 36 H18 V26 H32 V16 H46 V6 H60"
                     fill="none"
@@ -69,7 +69,7 @@ export function Hero({ stats }: HeroProps) {
             <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
               <div className="animate-rise grid max-w-[540px] grid-cols-[auto_1fr] gap-x-8 border-t border-white/35 pt-4" style={{ animationDelay: "320ms" }}>
                 <span className="pt-1 text-[13px] font-medium text-white/80">{SITE_NAME} is</span>
-                <ul className="text-[19px] font-semibold leading-[1.18] tracking-[-0.03em] sm:text-[22px]">
+                <ul className="text-[19px] font-semibold leading-[1.18] tracking-[-0.03em] sm:text-[22px] lg:text-[clamp(17px,2.7svh,22px)]">
                   {points.map((point, index) => (
                     <li key={point}>
                       {point}
@@ -80,8 +80,8 @@ export function Hero({ stats }: HeroProps) {
               </div>
 
               <div className="animate-rise lg:justify-self-end" style={{ animationDelay: "400ms" }}>
-                <p className="max-w-[420px] text-[16px] leading-[1.55] text-white/90 sm:text-[17px]">{SITE_TAGLINE}</p>
-                <div className="mt-6 flex flex-wrap items-center gap-2.5">
+                <p className="max-w-[420px] text-[16px] leading-[1.55] text-white/90 sm:text-[17px] lg:text-[clamp(15px,2.4svh,17px)]">{SITE_TAGLINE}</p>
+                <div className="mt-6 flex flex-wrap items-center gap-2.5 lg:mt-[clamp(14px,2.6svh,24px)]">
                   <ButtonLink href="/feed" variant="light" size="lg" className="gap-8">
                     Explore Experiences
                     <ArrowRight className="h-[18px] w-[18px]" aria-hidden />
