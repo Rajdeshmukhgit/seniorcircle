@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { POSTS_TAG } from "@/lib/data/cached";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getRepo } from "@/lib/data";
 import { invalid, profileSchema } from "@/lib/validation/schemas";
@@ -20,5 +21,6 @@ export async function updateProfile(_prev: ActionState, formData: FormData): Pro
   }
 
   revalidatePath("/", "layout");
+  revalidateTag(POSTS_TAG); // author names on cards
   return { ok: true, message: "Profile saved." };
 }

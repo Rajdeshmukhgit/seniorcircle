@@ -22,15 +22,16 @@ export const getCurrentUser = cache(async (): Promise<Profile | null> => {
   }
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return null;
+  // Verified locally against the project's public signing key (see
+  // lib/supabase/middleware.ts), which saves a network round trip per page.
+  const { data: auth } = await supabase.auth.getClaims();
+  const claims = auth?.claims;
+  if (!claims?.sub) return null;
 
-  const { data } = await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", user.id).maybeSingle();
+  const { data } = await supabase.from("profiles").select(PROFILE_COLUMNS).eq("id", claims.sub).maybeSingle();
   if (!data) return null;
 
-  return { ...(data as unknown as Omit<Profile, "email">), email: user.email ?? "" };
+  return { ...(data as unknown as Omit<Profile, "email">), email: typeof claims.email === "string" ? claims.email : "" };
 });
 
 /** For pages that need a member. Sends everyone else to sign in. */

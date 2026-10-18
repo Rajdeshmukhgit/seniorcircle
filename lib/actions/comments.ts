@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { POSTS_TAG } from "@/lib/data/cached";
 import { canInteract, isAdmin } from "@/lib/auth/permissions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getRepo } from "@/lib/data";
@@ -28,6 +29,7 @@ export async function addComment(_prev: ActionState, formData: FormData): Promis
   }
 
   revalidatePath(`/experiences/${post.id}`);
+  revalidateTag(POSTS_TAG); // comment counts on the homepage
   return { ok: true };
 }
 
@@ -41,4 +43,5 @@ export async function deleteComment(formData: FormData): Promise<void> {
 
   await repo.deleteComment(id);
   revalidatePath(`/experiences/${comment.post_id}`);
+  revalidateTag(POSTS_TAG);
 }

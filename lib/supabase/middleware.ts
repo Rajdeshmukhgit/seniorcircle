@@ -27,9 +27,11 @@ export async function updateSession(request: NextRequest) {
     },
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  // getClaims() checks the session token's signature locally with the
+  // project's cached public key, so it does not call Supabase Auth on every
+  // page view the way getUser() did. It still refreshes an expired session,
+  // and falls back to getUser() if the project signs tokens with a shared secret.
+  const { data } = await supabase.auth.getClaims();
 
-  return { response, isSignedIn: Boolean(user) };
+  return { response, isSignedIn: Boolean(data?.claims?.sub) };
 }

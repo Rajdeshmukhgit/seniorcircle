@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { POSTS_TAG } from "@/lib/data/cached";
 import { isAdmin } from "@/lib/auth/permissions";
 import { getCurrentUser } from "@/lib/auth/session";
 import { getRepo } from "@/lib/data";
@@ -29,4 +30,5 @@ export async function removeReportedPost(formData: FormData): Promise<void> {
   await assertAdmin();
   await getRepo().deletePost(String(formData.get("post_id") ?? ""));
   revalidatePath("/", "layout");
+  revalidateTag(POSTS_TAG);
 }

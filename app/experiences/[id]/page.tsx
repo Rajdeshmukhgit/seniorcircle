@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { ArrowLeft, Briefcase, Building2, CalendarDays, Clock3, GraduationCap, MessageSquare, Pencil } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -21,9 +22,12 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+/** One database read per request, shared by the page and its metadata. */
+const loadPost = cache((id: string) => getRepo().getPost(id));
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const post = await getRepo().getPost(id);
+  const post = await loadPost(id);
   return { title: post?.title ?? "Experience" };
 }
 
@@ -33,16 +37,20 @@ export default async function ExperiencePage({ params }: PageProps) {
   const { id } = await params;
   const viewer = await requireUser(`/experiences/${id}`);
   const repo = getRepo();
-  const post = await repo.getPost(id);
+  // Everything this page needs is fetched at the same time rather than one
+  // query after another; each extra round trip to the database adds latency.
+  const [post, comments, connectRow, reportedRow, myVote] = await Promise.all([
+    loadPost(id),
+    repo.listComments(id),
+    repo.getConnectForPost(viewer.id, id),
+    repo.hasReported(viewer.id, id),
+    repo.getVote(viewer.id, id).catch(() => 0 as const),
+  ]);
   if (!post) notFound();
 
   const isAuthor = viewer.id === post.author_id;
-  const [comments, connect, reported, myVote] = await Promise.all([
-    repo.listComments(post.id),
-    isAuthor ? null : repo.getConnectForPost(viewer.id, post.id),
-    isAuthor ? false : repo.hasReported(viewer.id, post.id),
-    repo.getVote(viewer.id, post.id).catch(() => 0 as const),
-  ]);
+  const connect = isAuthor ? null : connectRow;
+  const reported = isAuthor ? false : reportedRow;
   const firstName = post.author.name.split(" ")[0];
   const edited = post.updated_at.slice(0, 16) !== post.created_at.slice(0, 16);
 

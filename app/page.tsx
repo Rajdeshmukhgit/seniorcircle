@@ -5,7 +5,7 @@ import { Hero } from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { KineticBand } from "@/components/home/KineticBand";
 import { MostHelpful } from "@/components/home/MostHelpful";
-import { getRepo } from "@/lib/data";
+import { getPublicPreviews } from "@/lib/data/cached";
 import type { PostPreview } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   let previews: PostPreview[] = [];
   try {
-    previews = await getRepo().listPreviews();
+    previews = await getPublicPreviews();
   } catch {
     // The homepage still renders its static sections if the database is unreachable.
   }

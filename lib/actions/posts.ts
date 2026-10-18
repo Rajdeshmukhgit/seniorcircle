@@ -1,6 +1,7 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { POSTS_TAG } from "@/lib/data/cached";
 import { redirect } from "next/navigation";
 import { after } from "next/server";
 import { enrichPostById } from "@/lib/ai/enrich";
@@ -40,6 +41,7 @@ export async function savePost(_prev: ActionState, formData: FormData): Promise<
   }
 
   revalidatePath("/", "layout");
+  revalidateTag(POSTS_TAG);
 
   // Embedding and reading the write-up takes several seconds and two model
   // calls, so it runs after the response: the member gets their experience
@@ -64,5 +66,6 @@ export async function deletePost(formData: FormData): Promise<void> {
 
   await repo.deletePost(id);
   revalidatePath("/", "layout");
+  revalidateTag(POSTS_TAG);
   redirect(formData.get("from") === "admin" ? "/admin" : "/feed");
 }
