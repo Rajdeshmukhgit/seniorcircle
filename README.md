@@ -1,5 +1,7 @@
 # Senior-Junior Connect
 
+> **CI/CD (CCA 2):** this repo is built and deployed by Jenkins on AWS → Docker Hub → Kubernetes (Minikube). See [DEPLOYMENT.md](DEPLOYMENT.md) for the pipeline report, and `Jenkinsfile`, `Dockerfile`, `k8s/`, `infra/` for the files.
+
 A college-only platform where seniors and alumni write up their interview, internship, exam and certification experiences, and juniors read, search, comment and connect. Built for the PBL III project from the Version 1.0 PRD.
 
 The placeholder name is **SeniorCircle**. Change it in one place: `lib/constants/site.ts`.
