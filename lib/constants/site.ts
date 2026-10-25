@@ -8,7 +8,7 @@ export const SITE_NAME = "SeniorCircle";
  * Release number shown in the footer and returned by /api/health.
  * Bump it when you ship a change, so you can see which build is running.
  */
-export const APP_VERSION = "2.0.0";
+export const APP_VERSION = "3.0.0";
 
 /** The slice of SITE_NAME drawn in the brand colour in the wordmark. */
 export const SITE_NAME_ACCENT = "Circle";
