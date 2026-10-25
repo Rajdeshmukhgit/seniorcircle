@@ -1,0 +1,18 @@
+# Keep the Docker build context small and free of secrets.
+node_modules
+.next
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+*.tgz
+*.tar.gz
+*.tsbuildinfo
+Jenkinsfile
+k8s
+infra
+docs
+start-dev.bat
+README.md
+.vercel

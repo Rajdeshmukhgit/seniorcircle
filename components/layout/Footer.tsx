@@ -1,6 +1,6 @@
 import { Mail, MapPin } from "lucide-react";
 import Link from "next/link";
-import { COLLEGE_NAME, CONTACT_EMAIL, SITE_MISSION, SITE_NAME } from "@/lib/constants/site";
+import { APP_VERSION, COLLEGE_NAME, CONTACT_EMAIL, SITE_MISSION, SITE_NAME } from "@/lib/constants/site";
 import { LogoMark, Wordmark } from "./Logo";
 
 const quickLinks = [
@@ -94,7 +94,9 @@ export function Footer() {
           <p>
             © {new Date().getFullYear()} {SITE_NAME}. For the {COLLEGE_NAME} student community.
           </p>
-          <p>Built by students as a PBL III project.</p>
+          <p>
+            Built by students as a PBL III project. <span className="font-mono">v{APP_VERSION}</span>
+          </p>
         </div>
       </div>
     </footer>

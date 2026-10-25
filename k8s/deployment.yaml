@@ -1,0 +1,60 @@
+# Deployment: keeps 2 replicas of the SeniorCircle container running on Minikube.
+# Jenkins replaces the ":latest" tag below with the exact build tag
+# (<build number>-<git commit>) before applying, so every run is traceable.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seniorcircle
+  labels:
+    app: seniorcircle
+spec:
+  replicas: 2
+  revisionHistoryLimit: 5
+  selector:
+    matchLabels:
+      app: seniorcircle
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0   # zero-downtime: a new pod must be ready before an old one stops
+  template:
+    metadata:
+      labels:
+        app: seniorcircle
+    spec:
+      containers:
+        - name: seniorcircle
+          image: docker.io/rajd27/seniorcircle:latest
+          imagePullPolicy: Always   # always pull from Docker Hub
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: production
+          # Optional server-side keys for the AI assistant (GROQ_API_KEY,
+          # GEMINI_API_KEY). The app runs without them.
+          envFrom:
+            - secretRef:
+                name: seniorcircle-secrets
+                optional: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 192Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 20

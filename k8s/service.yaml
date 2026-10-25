@@ -1,0 +1,17 @@
+# Service: gives the pods one stable address and load-balances between them.
+# NodePort 30080 exposes it on the Minikube node.
+apiVersion: v1
+kind: Service
+metadata:
+  name: seniorcircle-service
+  labels:
+    app: seniorcircle
+spec:
+  type: NodePort
+  selector:
+    app: seniorcircle
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000
+      nodePort: 30080
