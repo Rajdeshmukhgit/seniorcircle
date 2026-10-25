@@ -29,7 +29,7 @@ export function Hero({ stats }: HeroProps) {
             <div className="max-w-[720px]">
               <p className="eyebrow animate-rise text-white/90">
                 <span className="h-1.5 w-1.5 rounded-full bg-white" />
-                {COLLEGE_NAME} · Senior–Junior Connect
+                {COLLEGE_NAME} · Senior–Junior Connect · Deployed via CI/CD
               </p>
               <h1
                 className="animate-rise mt-5 lg:mt-[clamp(12px,2.4svh,20px)] font-display text-[42px] font-semibold leading-[0.96] tracking-[-0.055em] [text-shadow:0_2px_24px_rgba(8,40,72,0.18)] min-[420px]:text-[50px] sm:max-w-[6.4em] sm:text-[64px] lg:text-[clamp(50px,9.6svh,84px)]"
